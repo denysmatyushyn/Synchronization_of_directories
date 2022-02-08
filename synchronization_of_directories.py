@@ -4,6 +4,7 @@ import argparse
 import sys
 import threading
 from dirsync import sync
+from logger_class import Logger
 
 parser = argparse.ArgumentParser(
     prog='One-way synchronization of directories',
@@ -17,17 +18,6 @@ parser.add_argument('-r', '--replicated_dir', help='Need to point the path to th
 parser.add_argument('-f', '--log_file', help='Need to point the path to Logfile (mandatory variable)')
 parser.add_argument('-е', '--time', help='Need to point interval of synchronization per sec. (mandatory variable).')
 args = parser.parse_args()
-
-class Logger:
-    def __init__(self, filename):
-        self.console = sys.stdout
-        self.file = open(filename, 'w')
-    def write(self, message):
-        self.console.write(message)
-        self.file.write(message)
-    def flush(self):
-        self.console.flush()
-        self.file.flush()
 
 def sync_dir():
     sync(args.source_dir, args.replicated_dir, 'sync', purge = True, verbose = True)
